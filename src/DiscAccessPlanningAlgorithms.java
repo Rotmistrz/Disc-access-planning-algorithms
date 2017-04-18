@@ -5,27 +5,25 @@ public class DiscAccessPlanningAlgorithms {
         SSTF sstf = new SSTF(new Head(0));
 
         try {
-            fcfs.addRequest(new Request(1, 12));
-            fcfs.addRequest(new Request(5, 45));
-            fcfs.addRequest(new Request(6, 777));
-            fcfs.addRequest(new Request(13, 192));
-            fcfs.addRequest(new Request(1, 932));
-            fcfs.addRequest(new Request(1, 442));
-            fcfs.addRequest(new Request(1, 174));
-            fcfs.addRequest(new Request(84, 123));
-            fcfs.addRequest(new Request(71, 999));
-            fcfs.addRequest(new Request(16, 44));
+            fcfs.addRequest(new Request(1, 500));
+            fcfs.addRequest(new Request(2, 502));
+            fcfs.addRequest(new Request(3, 674));
+            fcfs.addRequest(new Request(4, 542));
+            fcfs.addRequest(new Request(5, 496));
+            fcfs.addRequest(new Request(6, 510));
+            fcfs.addRequest(new Request(7, 480));
+            fcfs.addRequest(new Request(8, 414));
+            fcfs.addRequest(new Request(9, 150));
 
-            sstf.addRequest(new Request(1, 442));
-            sstf.addRequest(new Request(1, 12));
-            sstf.addRequest(new Request(5, 45));
-            sstf.addRequest(new Request(6, 777));
-            sstf.addRequest(new Request(13, 192));
-            sstf.addRequest(new Request(1, 932));
-            sstf.addRequest(new Request(1, 174));
-            sstf.addRequest(new Request(84, 123));
-            sstf.addRequest(new Request(71, 999));
-            sstf.addRequest(new Request(16, 44));
+            sstf.addRequest(new Request(1, 500));
+            sstf.addRequest(new Request(2, 502));
+            sstf.addRequest(new Request(3, 674));
+            sstf.addRequest(new Request(4, 542));
+            sstf.addRequest(new Request(5, 496));
+            sstf.addRequest(new Request(6, 510));
+            sstf.addRequest(new Request(7, 480));
+            sstf.addRequest(new Request(8, 414));
+            sstf.addRequest(new Request(9, 150));
         } catch (OutOfDiscException e) {
             e.printStackTrace();
         }
