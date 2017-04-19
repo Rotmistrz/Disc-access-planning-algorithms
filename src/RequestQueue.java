@@ -20,7 +20,7 @@ public abstract class RequestQueue {
             	head.systemMove(current);
             }
             
-            System.out.println(current);
+            //System.out.println(current);
         }
 
         return head.getTotalPath();

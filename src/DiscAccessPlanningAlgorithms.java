@@ -1,12 +1,36 @@
+import java.util.ListIterator;
+
 public class DiscAccessPlanningAlgorithms {
     public static void main(String[] args) {
-        Head fcfsHead = new Head(0);
-        FCFS fcfs = new FCFS(fcfsHead);
-        SSTF sstf = new SSTF(new Head(0));
-        SCAN scan = new SCAN(new Head(0));
-        SCAN cscan = new CSCAN(new Head(0));
+        FCFS fcfs = new FCFS(new Head(2500));
+        SSTF sstf = new SSTF(new Head(2500));
+        SCAN scan = new SCAN(new Head(2500));
+        CSCAN cscan = new CSCAN(new Head(2500));
 
         try {
+			RequestList requests = RequestList.createFromFile("worst.txt");
+			
+			ListIterator<Request> it = requests.listIterator();
+			
+			while(it.hasNext()) {
+				Request request = (Request) it.next();
+				
+				fcfs.addRequest(new Request(request.comeTime, request.discSection));
+				sstf.addRequest(new Request(request.comeTime, request.discSection));
+				scan.addRequest(new Request(request.comeTime, request.discSection));
+				cscan.addRequest(new Request(request.comeTime, request.discSection));
+			}
+			
+			System.out.println("FCFS: " + fcfs.countAveragePath());
+	        System.out.println("SSTF: " + sstf.countAveragePath());
+	        System.out.println("SCAN: " + scan.countAveragePath());
+	        System.out.println("CSCAN: " + cscan.countAveragePath());
+		} catch(Exception e) {
+			System.out.println("There's a problem occured while processing the file: " + e.getCause() + " " + e.getSuppressed() + " " + e.getLocalizedMessage() + " " + e);
+		}
+        
+
+        /**try {
             fcfs.addRequest(new Request(1, 500));
             fcfs.addRequest(new Request(2, 502));
             fcfs.addRequest(new Request(3, 674));
@@ -49,12 +73,7 @@ public class DiscAccessPlanningAlgorithms {
 
         } catch (OutOfDiscException e) {
             e.printStackTrace();
-        }
-
-        System.out.println("FCFS: " + fcfs.countAveragePath());
-        System.out.println("SSTF: " + sstf.countAveragePath());
-        System.out.println("SCAN: " + scan.countAveragePath());
-        System.out.println("CSCAN: " + cscan.countAveragePath());
-
+        }**/
+        
     }
 }

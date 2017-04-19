@@ -6,7 +6,7 @@ public class Head {
     public Head(int currentSection) {
         this.totalPath = 0;
         this.currentSection = currentSection;
-        this.maxSection = 1000;
+        this.maxSection = 5000;
     }
 
     public Head move(Request request) {
