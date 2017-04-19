@@ -10,7 +10,7 @@ public class SSTF extends RequestQueue {
 
     @Override
     public int countAveragePath() {
-    	requests = sort();
+        requests = sort();
         ListIterator<Request> iterator = requests.listIterator();
         head.setTotalPath(0);
         Request current;
@@ -21,7 +21,7 @@ public class SSTF extends RequestQueue {
             System.out.println(current);
         }
 
-        return head.getTotalPath()/requests.size();
+        return head.getTotalPath();
     }
 
     @Override
@@ -34,37 +34,37 @@ public class SSTF extends RequestQueue {
 
         return this;
     }
-    
+
     private LinkedList<Request> sort() {
-    	if(requests.size() <= 1) {
-    		return requests;
-    	}
-    	
-    	LinkedList<Request> sorted = new LinkedList<Request>();
-    	Request recent = requests.pop();
-    	ListIterator it;
-    	Request current;
-    	Request nearest;
-    	
-    	sorted.add(recent);
-    	
-    	for(int n = requests.size(); n > 0; n--) {
-    		it = requests.listIterator();
-    		nearest = (Request) it.next();
-    		
-        	while(it.hasNext()) {
-        		current = (Request) it.next();
-        		
-        		if(Math.abs(recent.discSection - nearest.discSection) > Math.abs(recent.discSection - current.discSection)) {
-        			nearest = current;
-        		}
-        	}
-        	
-        	sorted.add(nearest);
-        	requests.remove(nearest);
-        	recent = nearest;
-    	}
-    	
-    	return sorted;
+        if(requests.size() <= 1) {
+            return requests;
+        }
+
+        LinkedList<Request> sorted = new LinkedList<Request>();
+        Request recent = requests.pop();
+        ListIterator it;
+        Request current;
+        Request nearest;
+
+        sorted.add(recent);
+
+        for(int n = requests.size(); n > 0; n--) {
+            it = requests.listIterator();
+            nearest = (Request) it.next();
+
+            while(it.hasNext()) {
+                current = (Request) it.next();
+
+                if(Math.abs(recent.discSection - nearest.discSection) > Math.abs(recent.discSection - current.discSection)) {
+                    nearest = current;
+                }
+            }
+
+            sorted.add(nearest);
+            requests.remove(nearest);
+            recent = nearest;
+        }
+
+        return sorted;
     }
 }

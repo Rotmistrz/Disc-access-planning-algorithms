@@ -22,7 +22,7 @@ public class FCFS extends RequestQueue {
         }
 
 
-        return head.getTotalPath()/requests.size();
+        return head.getTotalPath();
     }
 
     @Override

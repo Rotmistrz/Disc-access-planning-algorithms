@@ -3,6 +3,7 @@ public class DiscAccessPlanningAlgorithms {
         Head fcfsHead = new Head(0);
         FCFS fcfs = new FCFS(fcfsHead);
         SSTF sstf = new SSTF(new Head(0));
+        SCAN scan = new SCAN(new Head(0));
 
         try {
             fcfs.addRequest(new Request(1, 500));
@@ -24,13 +25,24 @@ public class DiscAccessPlanningAlgorithms {
             sstf.addRequest(new Request(7, 480));
             sstf.addRequest(new Request(8, 414));
             sstf.addRequest(new Request(9, 150));
+
+            scan.addRequest(new Request(1, 500));
+            scan.addRequest(new Request(2, 999));
+            scan.addRequest(new Request(3, 674));
+            scan.addRequest(new Request(4, 542));
+            scan.addRequest(new Request(5, 496));
+            scan.addRequest(new Request(6, 510));
+            scan.addRequest(new Request(7, 480));
+            scan.addRequest(new Request(8, 414));
+            scan.addRequest(new Request(9, 150));
+
         } catch (OutOfDiscException e) {
             e.printStackTrace();
         }
 
         System.out.println("FCFS: " + fcfs.countAveragePath());
         System.out.println("SSTF: " + sstf.countAveragePath());
-
+        System.out.println("SCAN: " + scan.countAveragePath());
 
 
     }
