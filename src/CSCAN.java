@@ -1,12 +1,11 @@
 import java.util.LinkedList;
 import java.util.ListIterator;
 
-public class SCAN extends RequestQueue {
+public class CSCAN extends SCAN {
     Direction direction;
 
-    public SCAN(Head head) {
-        this.requests = new LinkedList<Request>();
-        this.head = head;
+    public CSCAN(Head head) {
+        super(head);
     }
 
     public LinkedList<Request> sort() {
@@ -16,28 +15,36 @@ public class SCAN extends RequestQueue {
 
         LinkedList<Request> sorted = new LinkedList<Request>();
         Request recent = requests.pop();
-
-        sorted.add(recent);
-
+        
         Request discBegin = new Request(0, 0);
         Request discEnd = new Request(0, head.getMaxSection());
         
-        calculateDirection();
+        sorted.add(recent);
 
+        calculateDirection();
+        
         if (direction == Direction.UP) {
-            sorted.addAll(sortUpwards(recent));
+            sorted.addAll(sortUpwards(recent.discSection, head.getMaxSection()));
             sorted.add(discEnd);
-            sorted.addAll(sortDownwards(recent));
-        } else {
-            sorted.addAll(sortDownwards(recent));
+            
+            discBegin.systemwideRequest = true;
             sorted.add(discBegin);
-            sorted.addAll(sortUpwards(recent));
+            
+            sorted.addAll(sortUpwards(0, recent.discSection));
+        } else {
+        	sorted.addAll(sortDownwards(0, recent.discSection));
+            sorted.add(discBegin);
+            
+            discEnd.systemwideRequest = true;
+            sorted.add(discEnd);
+            
+            sorted.addAll(sortDownwards(recent.discSection, head.getMaxSection()));
         }
 
         return sorted;
     }
 
-    private LinkedList<Request> sortUpwards(Request startPoint) {
+    private LinkedList<Request> sortUpwards(int bottomLimit, int topLimit) {
     	ListIterator<Request> it = requests.listIterator();
         LinkedList<Request> sorted = new LinkedList<Request>();
         Request smallest = null;
@@ -54,7 +61,7 @@ public class SCAN extends RequestQueue {
             while(it.hasNext()) {
                 smallest = (Request) it.next();
 
-                if (smallest.compareTo(startPoint) >= 0) {
+                if (smallest.discSection > bottomLimit && smallest.discSection < topLimit) {
                     break;
                 } else {
                     it.remove();
@@ -66,7 +73,7 @@ public class SCAN extends RequestQueue {
             while(it.hasNext()) {
                 current = (Request) it.next();
 
-                if(current.compareTo(startPoint) >= 0 && current.compareTo(smallest) < 0) {
+                if(smallest.discSection > bottomLimit && smallest.discSection < topLimit && current.compareTo(smallest) < 0) {
                     smallest = current;
                 }
             }
@@ -80,7 +87,7 @@ public class SCAN extends RequestQueue {
         return sorted;
     }
 
-    private LinkedList<Request> sortDownwards(Request startPoint) {
+    private LinkedList<Request> sortDownwards(int bottomLimit, int topLimit) {
         ListIterator<Request> it = requests.listIterator();
         LinkedList<Request> sorted = new LinkedList<Request>();
         Request largest = null;
@@ -91,13 +98,14 @@ public class SCAN extends RequestQueue {
             requestsCopy.add(it.next().clone());
         }
 
+
         for(int n = requestsCopy.size(); n > 0; n--) {
             it = requestsCopy.listIterator();
 
             while(it.hasNext()) {
                 largest = (Request) it.next();
 
-                if (largest.compareTo(startPoint) <= 0) {
+                if (largest.discSection > bottomLimit && largest.discSection < topLimit) {
                     break;
                 } else {
                     it.remove();
@@ -109,7 +117,7 @@ public class SCAN extends RequestQueue {
             while(it.hasNext()) {
                 current = (Request) it.next();
 
-                if(current.compareTo(startPoint) <= 0 && current.compareTo(largest) > 0) {
+                if(largest.discSection > bottomLimit && largest.discSection < topLimit && current.compareTo(largest) > 0) {
                     largest = current;
                 }
             }
@@ -121,17 +129,5 @@ public class SCAN extends RequestQueue {
         }
 
         return sorted;
-    }
-
-    protected SCAN calculateDirection() {
-        direction = (head.getMaxSection() - requests.peek().discSection >= requests.peek().discSection) ? Direction.UP : Direction.DOWN;
-
-        return this;
-    }
-
-    protected SCAN toggleDirection() {
-        direction = (direction == Direction.UP) ? Direction.DOWN : Direction.UP;
-
-        return this;
     }
 }

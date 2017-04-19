@@ -12,7 +12,14 @@ public class Head {
     public Head move(Request request) {
         totalPath += Math.abs(currentSection - request.discSection);
         currentSection = request.discSection;
+        
         return this;
+    }
+    
+    public Head systemMove(Request request) {
+    	currentSection = request.discSection;
+    	
+    	return this;
     }
 
     public int getTotalPath() {

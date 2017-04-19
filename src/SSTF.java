@@ -7,35 +7,8 @@ public class SSTF extends RequestQueue {
         this.requests = new LinkedList<Request>();
         this.head = head;
     }
-
-    @Override
-    public int countAveragePath() {
-        requests = sort();
-        ListIterator<Request> iterator = requests.listIterator();
-        head.setTotalPath(0);
-        Request current;
-
-        while (iterator.hasNext()) {
-            current = iterator.next();
-            head.move(current);
-            System.out.println(current);
-        }
-
-        return head.getTotalPath();
-    }
-
-    @Override
-    public RequestQueue addRequest(Request request) throws OutOfDiscException {
-        if (request.discSection <= head.getMaxSection()) {
-            requests.add(request);
-        } else {
-            throw new OutOfDiscException();
-        }
-
-        return this;
-    }
-
-    private LinkedList<Request> sort() {
+    
+    public LinkedList<Request> sort() {
         if(requests.size() <= 1) {
             return requests;
         }
