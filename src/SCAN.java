@@ -37,7 +37,7 @@ public class SCAN extends RequestQueue {
         return sorted;
     }
 
-    private LinkedList<Request> sortUpwards(Request startPoint) {
+    protected LinkedList<Request> sortUpwards(Request startPoint) {
     	ListIterator<Request> it = requests.listIterator();
         LinkedList<Request> sorted = new LinkedList<Request>();
         Request smallest = null;
@@ -80,7 +80,7 @@ public class SCAN extends RequestQueue {
         return sorted;
     }
 
-    private LinkedList<Request> sortDownwards(Request startPoint) {
+    protected LinkedList<Request> sortDownwards(Request startPoint) {
         ListIterator<Request> it = requests.listIterator();
         LinkedList<Request> sorted = new LinkedList<Request>();
         Request largest = null;

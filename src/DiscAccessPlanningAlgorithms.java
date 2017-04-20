@@ -6,9 +6,11 @@ public class DiscAccessPlanningAlgorithms {
         SSTF sstf = new SSTF(new Head(2500));
         SCAN scan = new SCAN(new Head(2500));
         CSCAN cscan = new CSCAN(new Head(2500));
+        LOOK look = new LOOK(new Head(2500));
+        CLOOK clook = new CLOOK(new Head(2500));
 
         try {
-			RequestList requests = RequestList.createFromFile("worst.txt");
+			RequestList requests = RequestList.createFromFile("correct-worst.txt");
 			
 			ListIterator<Request> it = requests.listIterator();
 			
@@ -19,14 +21,18 @@ public class DiscAccessPlanningAlgorithms {
 				sstf.addRequest(new Request(request.comeTime, request.discSection));
 				scan.addRequest(new Request(request.comeTime, request.discSection));
 				cscan.addRequest(new Request(request.comeTime, request.discSection));
+				look.addRequest(new Request(request.comeTime, request.discSection));
+				clook.addRequest(new Request(request.comeTime, request.discSection));
 			}
 			
 			System.out.println("FCFS: " + fcfs.countAveragePath());
 	        System.out.println("SSTF: " + sstf.countAveragePath());
 	        System.out.println("SCAN: " + scan.countAveragePath());
-	        System.out.println("CSCAN: " + cscan.countAveragePath());
+	        System.out.println("C-SCAN: " + cscan.countAveragePath());
+	        System.out.println("LOOK: " + look.countAveragePath());
+	        System.out.println("C-LOOK: " + clook.countAveragePath());
 		} catch(Exception e) {
-			System.out.println("There's a problem occured while processing the file: " + e.getCause() + " " + e.getSuppressed() + " " + e.getLocalizedMessage() + " " + e);
+			System.out.println("There's a problem occured while processing the file.");
 		}
         
 

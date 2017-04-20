@@ -2,10 +2,9 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 
 public class CSCAN extends SCAN {
-    Direction direction;
-
+	
     public CSCAN(Head head) {
-        super(head);
+    	super(head);
     }
 
     public LinkedList<Request> sort() {
@@ -30,7 +29,7 @@ public class CSCAN extends SCAN {
             discBegin.systemwideRequest = true;
             sorted.add(discBegin);
             
-            sorted.addAll(sortUpwards(0, recent.discSection));
+            sorted.addAll(sortUpwards(0, recent.discSection - 1));
         } else {
         	sorted.addAll(sortDownwards(0, recent.discSection));
             sorted.add(discBegin);
@@ -38,13 +37,13 @@ public class CSCAN extends SCAN {
             discEnd.systemwideRequest = true;
             sorted.add(discEnd);
             
-            sorted.addAll(sortDownwards(recent.discSection, head.getMaxSection()));
+            sorted.addAll(sortDownwards(recent.discSection + 1, head.getMaxSection()));
         }
 
         return sorted;
     }
 
-    private LinkedList<Request> sortUpwards(int bottomLimit, int topLimit) {
+    protected LinkedList<Request> sortUpwards(int bottomLimit, int topLimit) {
     	ListIterator<Request> it = requests.listIterator();
         LinkedList<Request> sorted = new LinkedList<Request>();
         Request smallest = null;
@@ -61,7 +60,7 @@ public class CSCAN extends SCAN {
             while(it.hasNext()) {
                 smallest = (Request) it.next();
 
-                if (smallest.discSection > bottomLimit && smallest.discSection < topLimit) {
+                if (smallest.discSection >= bottomLimit && smallest.discSection <= topLimit) {
                     break;
                 } else {
                     it.remove();
@@ -73,7 +72,7 @@ public class CSCAN extends SCAN {
             while(it.hasNext()) {
                 current = (Request) it.next();
 
-                if(smallest.discSection > bottomLimit && smallest.discSection < topLimit && current.compareTo(smallest) < 0) {
+                if(current.discSection >= bottomLimit && current.discSection <= topLimit && current.compareTo(smallest) < 0) {
                     smallest = current;
                 }
             }
@@ -87,7 +86,7 @@ public class CSCAN extends SCAN {
         return sorted;
     }
 
-    private LinkedList<Request> sortDownwards(int bottomLimit, int topLimit) {
+    protected LinkedList<Request> sortDownwards(int bottomLimit, int topLimit) {
         ListIterator<Request> it = requests.listIterator();
         LinkedList<Request> sorted = new LinkedList<Request>();
         Request largest = null;
@@ -117,7 +116,7 @@ public class CSCAN extends SCAN {
             while(it.hasNext()) {
                 current = (Request) it.next();
 
-                if(largest.discSection > bottomLimit && largest.discSection < topLimit && current.compareTo(largest) > 0) {
+                if(current.discSection > bottomLimit && current.discSection < topLimit && current.compareTo(largest) > 0) {
                     largest = current;
                 }
             }
