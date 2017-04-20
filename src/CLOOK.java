@@ -13,18 +13,29 @@ public class CLOOK extends CSCAN {
         }
 
         LinkedList<Request> sorted = new LinkedList<Request>();
-        Request recent = requests.pop();
         
-        sorted.add(recent);
+        int initialHeadSection = head.getCurrentSection();
 
         calculateDirection();
         
         if (direction == Direction.UP) {
-            sorted.addAll(sortUpwards(recent.discSection, head.getMaxSection()));
-            sorted.addAll(sortUpwards(0, recent.discSection - 1));
+            sorted.addAll(sortUpwards(initialHeadSection, head.getMaxSection()));
+            
+            Request smallest = getNearest(0);
+            smallest.systemwideRequest = true;
+            sorted.add(smallest);
+            requests.remove(smallest);
+            
+            sorted.addAll(sortUpwards(0, initialHeadSection - 1));
         } else {
-        	sorted.addAll(sortDownwards(0, recent.discSection));
-            sorted.addAll(sortDownwards(recent.discSection + 1, head.getMaxSection()));
+        	sorted.addAll(sortDownwards(0, initialHeadSection));
+        	
+        	Request largest = getNearest(0);
+        	largest.systemwideRequest = true;
+            sorted.add(largest);
+            requests.remove(largest);
+        	
+            sorted.addAll(sortDownwards(initialHeadSection + 1, head.getMaxSection()));
         }
 
         return sorted;

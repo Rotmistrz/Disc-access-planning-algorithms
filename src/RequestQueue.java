@@ -36,5 +36,21 @@ public abstract class RequestQueue {
         return this;
     }
     
+    public Request getNearest(int discSection) {
+    	ListIterator<Request> it = requests.listIterator();
+        Request nearest = (Request) it.next();
+        Request current;
+        
+        while(it.hasNext()) {
+            current = (Request) it.next();
+
+            if(Math.abs(discSection - nearest.discSection) > Math.abs(discSection - current.discSection)) {
+                nearest = current;
+            }
+        }
+    	
+    	return nearest;
+    }
+    
     protected abstract LinkedList<Request> sort();
 }

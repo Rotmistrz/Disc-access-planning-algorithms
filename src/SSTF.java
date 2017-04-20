@@ -14,11 +14,12 @@ public class SSTF extends RequestQueue {
         }
 
         LinkedList<Request> sorted = new LinkedList<Request>();
-        Request recent = requests.pop();
+        Request recent = getNearest(head.getCurrentSection());
         ListIterator it;
         Request current;
         Request nearest;
 
+        requests.remove(recent);
         sorted.add(recent);
 
         for(int n = requests.size(); n > 0; n--) {
